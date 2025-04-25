@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../widgets/theme_button.dart';
+import '../widgets/settings_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../gen/assets.gen.dart';
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Quote App'),
         actions: [
-          const ThemeButton(),
+          const SettingsButton(),
           IconButton(
             onPressed: () async {
               try {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../quote/presentation/widgets/theme_button.dart';
+import '../../../quote/presentation/widgets/settings_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../gen/assets.gen.dart';
@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Welcome"),
         actions: const [
-          ThemeButton(),
+          SettingsButton(),
         ],
       ),
       body: Padding(

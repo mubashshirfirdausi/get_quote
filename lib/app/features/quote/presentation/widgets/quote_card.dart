@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_qoute/app/features/settings/presentation/provider/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../common/animations/custom_rect_tween.dart';
 import '../../../../common/animations/hero_dialog_route.dart';
@@ -45,30 +47,34 @@ class QuoteCard extends StatelessWidget {
           // shape: RoundedRectangleBorder(
           //   borderRadius: BorderRadius.circular(12),
           // ),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: AppTheme.gradientDecoration.copyWith(borderRadius: BorderRadius.circular(12)),
-            // height: 200,
-            child: ListTile(
-              title: Text(
-                quote.text ?? "",
-                style: const TextStyle(color: Colors.white),
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text(
-                "Author: ${quote.author ?? ""}",
-                style: const TextStyle(color: Colors.white),
-                // overflow: TextOverflow.ellipsis,
-              ),
-              trailing: IconButton(
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red.shade300,
+          child: Consumer<SettingsProvider>(builder: (_, settimgsProvider, __) {
+            return Container(
+              padding: const EdgeInsets.all(8),
+              decoration: AppTheme.getGradientDecoration(
+                      settimgsProvider.themeColor.primaryColor)
+                  .copyWith(borderRadius: BorderRadius.circular(12)),
+              // height: 200,
+              child: ListTile(
+                title: Text(
+                  quote.text ?? "",
+                  style: const TextStyle(color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                onPressed: onDeletedPressed,
+                subtitle: Text(
+                  "Author: ${quote.author ?? ""}",
+                  style: const TextStyle(color: Colors.white),
+                  // overflow: TextOverflow.ellipsis,
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red.shade300,
+                  ),
+                  onPressed: onDeletedPressed,
+                ),
               ),
-            ),
-          ),
+            );
+          }),
           //   ),
           // ),
         ),

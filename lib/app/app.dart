@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'features/theme/provider/theme_provider.dart';
+import 'features/settings/presentation/provider/settings_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
@@ -86,81 +86,82 @@ class GetQouteApp extends StatelessWidget {
             ),
           ),
           ChangeNotifierProvider(
-            create: (context) => ThemeProvider(),
+            create: (context) => SettingsProvider(),
           )
         ],
-        child:
-            Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+        child: Consumer<SettingsProvider>(
+            builder: (context, themeProvider, child) {
           return MaterialApp(
-            themeMode: ThemeMode.system,
-            theme: ThemeData(
-              useMaterial3: false,
-              fontFamily: 'Plus Jakarta Sans',
+            themeMode: themeProvider.themeMode,
+            theme: themeProvider.getTheme(Brightness.light),
+            darkTheme: themeProvider.getTheme(Brightness.dark),
+            // theme: ThemeData(
+            //   useMaterial3: false,
+            //   fontFamily: 'Plus Jakarta Sans',
+            //   colorScheme: ColorScheme.fromSeed(
+            //     seedColor: kPrimaryColor,
+            //     brightness: Brightness.light,
+            //   ),
+            //   textButtonTheme: TextButtonThemeData(
+            //     style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
+            //   ),
+            //   elevatedButtonTheme: ElevatedButtonThemeData(
+            //     style: ElevatedButton.styleFrom(
+            //       minimumSize: const Size(226, 54),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(12),
+            //       ),
+            //     ),
+            //   ),
+            //   outlinedButtonTheme: OutlinedButtonThemeData(
+            //     style: OutlinedButton.styleFrom(
+            //       side: const BorderSide(color: kSecondaryColor),
+            //       shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(10)),
+            //       minimumSize: const Size(192, 56),
+            //     ),
+            //   ),
+            //   appBarTheme: const AppBarTheme(
+            //     centerTitle: true,
+            //     elevation: 0,
+            //   ),
+            //   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            //   // useMaterial3: true,
+            // ),
+            // darkTheme: ThemeData(
+            //   useMaterial3: false,
+            //   fontFamily: 'Plus Jakarta Sans',
+            //   colorScheme: ColorScheme.fromSeed(
+            //     seedColor: kPrimaryColor,
+            //     brightness: Brightness.dark,
+            //   ),
+            //   textButtonTheme: TextButtonThemeData(
+            //     style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
+            //   ),
+            //   elevatedButtonTheme: ElevatedButtonThemeData(
+            //     style: ElevatedButton.styleFrom(
+            //       minimumSize: const Size(226, 54),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(12),
+            //       ),
+            //     ),
+            //   ),
+            //   outlinedButtonTheme: OutlinedButtonThemeData(
+            //     style: OutlinedButton.styleFrom(
+            //       side: const BorderSide(color: kSecondaryColor),
+            //       shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(10)),
+            //       minimumSize: const Size(192, 56),
+            //     ),
+            //   ),
+            //   appBarTheme: const AppBarTheme(
+            //     centerTitle: true,
+            //     elevation: 0,
+            //   ),
+            //   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            //   // useMaterial3: true,
+            // ),
 
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: kPrimaryColor,
-                brightness: Brightness.light,
-              ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
-              ),
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(226, 54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-              outlinedButtonTheme: OutlinedButtonThemeData(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: kSecondaryColor),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  minimumSize: const Size(192, 56),
-                ),
-              ),
-              appBarTheme: const AppBarTheme(
-                centerTitle: true,
-                elevation: 0,
-              ),
-              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              // useMaterial3: true,
-            ),
-            darkTheme: ThemeData(
-              useMaterial3: false,
-              fontFamily: 'Plus Jakarta Sans',
-
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: kPrimaryColor,
-                brightness: Brightness.dark,
-              ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
-              ),
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(226, 54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-              outlinedButtonTheme: OutlinedButtonThemeData(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: kSecondaryColor),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  minimumSize: const Size(192, 56),
-                ),
-              ),
-              appBarTheme: const AppBarTheme(
-                centerTitle: true,
-                elevation: 0,
-              ),
-              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              // useMaterial3: true,
-            ),
             home: Consumer<AuthProvider>(
               builder: (context, authProvider, child) =>
                   authProvider.isAuthenticated

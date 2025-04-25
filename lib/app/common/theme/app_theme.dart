@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_qoute/app/features/settings/presentation/provider/settings_provider.dart';
 
 import '../constants/theme_constants.dart';
 
@@ -75,4 +76,20 @@ class AppTheme {
       ],
     ),
   );
+
+  static getGradientDecoration(Color color) {
+    return BoxDecoration(
+      border: Border.all(color: color),
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          // kPrimaryColor,
+          // kTertiaryColor,
+          color,
+          color.withValues(alpha: 1.5)
+        ],
+      ),
+    );
+  }
 }
