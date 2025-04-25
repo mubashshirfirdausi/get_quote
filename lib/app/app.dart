@@ -23,8 +23,8 @@ import 'features/user/data/repository/user_repository_impl.dart';
 import 'features/user/domain/usecases/get_current_user_usecase.dart';
 import 'features/user/presentation/providers/user_provider.dart';
 
-class GetQouteApp extends StatelessWidget {
-  const GetQouteApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
