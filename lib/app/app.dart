@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'features/theme/provider/theme_provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+
+import 'common/constants/theme_constants.dart';
+import 'features/auth/data/data_source/auth_local_data_source.dart';
+import 'features/auth/data/data_source/auth_remote_data_source.dart';
+import 'features/auth/data/repository/auth_repository_impl.dart';
+import 'features/auth/domain/usecases/check_auth_state_usecase.dart';
+import 'features/auth/domain/usecases/sign_in_with_google_usecase.dart';
+import 'features/auth/domain/usecases/sign_out_usecase.dart';
+import 'features/auth/presentations/providers/auth_provider.dart';
+import 'features/auth/presentations/screens/login_screen.dart';
+import 'features/quote/data/data_sources/quote_remote_data_source.dart';
+import 'features/quote/data/repository/quote_repository.dart';
+import 'features/quote/domain/usecases/get_quote_usecase.dart';
+import 'features/quote/presentation/provider/quote_provider.dart';
+import 'features/quote/presentation/screens/home_screen.dart';
+import 'features/user/data/data_source/user_local_data_source.dart';
+import 'features/user/data/repository/user_repository_impl.dart';
+import 'features/user/domain/usecases/get_current_user_usecase.dart';
+import 'features/user/presentation/providers/user_provider.dart';
+
+class GetQouteApp extends StatelessWidget {
+  const GetQouteApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => AuthProvider(
+              signInwithGoogleUsecase: SignInwithGoogleUsecase(
+                authRepository: AuthRepositoryImpl(
+                  authRemoteDataSource: AuthRemoteDataSource(
+                    googleSignIn: GoogleSignIn(),
+                  ),
+                  authLocalDataSource: AuthLocalDataSource(
+                    googleSignIn: GoogleSignIn(),
+                  ),
+                ),
+              ),
+              signOutUsecase: SignOutUsecase(
+                authRepository: AuthRepositoryImpl(
+                  authRemoteDataSource: AuthRemoteDataSource(
+                    googleSignIn: GoogleSignIn(),
+                  ),
+                  authLocalDataSource: AuthLocalDataSource(
+                    googleSignIn: GoogleSignIn(),
+                  ),
+                ),
+              ),
+              checkAuthStateUseCase: CheckAuthStateUseCase(
+                authRepository: AuthRepositoryImpl(
+                  authRemoteDataSource: AuthRemoteDataSource(
+                    googleSignIn: GoogleSignIn(),
+                  ),
+                  authLocalDataSource: AuthLocalDataSource(
+                    googleSignIn: GoogleSignIn(),
+                  ),
+                ),
+              ),
+            )..checkAuthState(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UserProvider(
+              getCurrentUserUsecase: GetCurrentUserUsecase(
+                userRepository: UserRepositoryImpl(
+                  userLocalDataSource: UserLocalDataSource(
+                    googleSignIn: GoogleSignIn(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => QuotesProvider(
+              getQuoteUseCase: GetQuoteUseCase(
+                quoteRepository: QuoteRepositoryImpl(
+                  quoteRemoteDataSource: QuoteRemoteDataSource(),
+                ),
+              ),
+            ),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ThemeProvider(),
+          )
+        ],
+        child:
+            Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+          return MaterialApp(
+            themeMode: ThemeMode.system,
+            theme: ThemeData(
+              useMaterial3: false,
+              fontFamily: 'Plus Jakarta Sans',
+
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: kPrimaryColor,
+                brightness: Brightness.light,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
+              ),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(226, 54),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              outlinedButtonTheme: OutlinedButtonThemeData(
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: kSecondaryColor),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  minimumSize: const Size(192, 56),
+                ),
+              ),
+              appBarTheme: const AppBarTheme(
+                centerTitle: true,
+                elevation: 0,
+              ),
+              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              // useMaterial3: true,
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: false,
+              fontFamily: 'Plus Jakarta Sans',
+
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: kPrimaryColor,
+                brightness: Brightness.dark,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
+              ),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(226, 54),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              outlinedButtonTheme: OutlinedButtonThemeData(
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: kSecondaryColor),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  minimumSize: const Size(192, 56),
+                ),
+              ),
+              appBarTheme: const AppBarTheme(
+                centerTitle: true,
+                elevation: 0,
+              ),
+              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              // useMaterial3: true,
+            ),
+            home: Consumer<AuthProvider>(
+              builder: (context, authProvider, child) =>
+                  authProvider.isAuthenticated
+                      ? const HomeScreen()
+                      : const LoginScreen(),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
