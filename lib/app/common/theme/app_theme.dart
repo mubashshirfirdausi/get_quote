@@ -86,8 +86,9 @@ class AppTheme {
         colors: [
           // kPrimaryColor,
           // kTertiaryColor,
+
+          color.withValues(alpha: 1.5),
           color,
-          color.withValues(alpha: 1.5)
         ],
       ),
     );
